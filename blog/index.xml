@@ -118,6 +118,8 @@ title="Copy code"
 &lt;/button>
 &lt;/div>
 &lt;/div>
+&lt;h2>行内代码&lt;span class="hx:absolute hx:-mt-20" id="行内代码">&lt;/span>
+&lt;a href="#%e8%a1%8c%e5%86%85%e4%bb%a3%e7%a0%81" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>这是行内代码 &lt;code>inline code&lt;/code> 这是行内代码&lt;/p>
 &lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
