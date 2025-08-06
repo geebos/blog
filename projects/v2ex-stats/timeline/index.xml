@@ -1,0 +1,52 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GeebosBlog – 时间线</title>
+    <link>http://localhost:1313/projects/v2ex-stats/timeline/</link>
+    <description>Recent content in 时间线 on GeebosBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 05 Aug 2025 23:07:07 -0700</lastBuildDate>
+    
+	  <atom:link href="http://localhost:1313/projects/v2ex-stats/timeline/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>V2.0.5</title>
+      <link>http://localhost:1313/projects/v2ex-stats/timeline/v2.0.5/</link>
+      <pubDate>Tue, 05 Aug 2025 23:07:20 -0700</pubDate>
+      
+      <guid>http://localhost:1313/projects/v2ex-stats/timeline/v2.0.5/</guid>
+      <description>
+        
+        
+        &lt;p&gt;更新关注逻辑，新增关注功能，关注那些值得长期跟踪的帖子，原因是有些帖子过一段时间会从首页消失&lt;/p&gt;
+&lt;p&gt;实现方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;调用收藏接口收藏关注的帖子&lt;/li&gt;
+&lt;li&gt;定时拉取收藏列表获取新增评论数判断帖子是否更新&lt;/li&gt;
+&lt;li&gt;按照更新时间排序同步到关注列表中&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>V2.0.6</title>
+      <link>http://localhost:1313/projects/v2ex-stats/timeline/v2.0.6/</link>
+      <pubDate>Tue, 05 Aug 2025 23:37:14 -0700</pubDate>
+      
+      <guid>http://localhost:1313/projects/v2ex-stats/timeline/v2.0.6/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>
