@@ -1,7 +1,7 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GeebosBlog – Monorepo</title><link>https://geebosblog.com/tags/monorepo/</link><description>Recent content in Monorepo on GeebosBlog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 26 Oct 2025 20:21:49 +0800</lastBuildDate><atom:link href="https://geebosblog.com/tags/monorepo/index.xml" rel="self" type="application/rss+xml"/><item><title>PNPM Workspace 实践：初始化与常见问题</title><link>https://geebosblog.com/blog/frontend/pnpm-workspace/</link><pubDate>Sun, 26 Oct 2025 20:21:49 +0800</pubDate><guid>https://geebosblog.com/blog/frontend/pnpm-workspace/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GeebosBlog – Monorepo</title><link>https://geebosblog.com/tags/monorepo/</link><description>Recent content in Monorepo on GeebosBlog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 26 Oct 2025 20:21:49 +0800</lastBuildDate><atom:link href="https://geebosblog.com/tags/monorepo/index.xml" rel="self" type="application/rss+xml"/><item><title>PNPM Workspace 实践指南</title><link>https://geebosblog.com/blog/frontend/pnpm-workspace/</link><pubDate>Sun, 26 Oct 2025 20:21:49 +0800</pubDate><guid>https://geebosblog.com/blog/frontend/pnpm-workspace/</guid><description>
 &lt;div class="hextra-card hx:group hx:overflow-hidden hx:rounded-lg hx:border hx:border-purple-200 hx:dark:border-purple-200/30 hx:bg-purple-50 hx:dark:bg-purple-900/30 hx:my-4 hx:p-5 hx:relative">
 &lt;div class="hx:text-gray-700 hx:dark:text-purple-200 hx:leading-relaxed hx:text-base">
-PNPM Workspace 是高效的 monorepo 解决方案，支持在单仓库中管理多个包，实现 Web、插件、移动端等多端代码共享。推荐配合 Turborepo 使用，获得智能缓存和任务编排能力。文章讲解从安装到使用的完整流程，解答依赖提升、协议版本、循环依赖等常见问题。
+PNPM Workspace 是高效的 monorepo 解决方案，支持在单仓库中管理多个包，实现 Web、插件、移动端等多端代码共享。文章讲解从安装配置到日常使用的完整流程，解答依赖提升、协议版本、循环依赖、热更新等常见问题。
 &lt;/div>
 &lt;div class="hx:absolute hx:bottom-3 hx:right-3 hx:flex hx:items-center hx:gap-1 hx:text-xs hx:text-gray-500 hx:dark:text-gray-300 hx:opacity-75">
 &lt;svg class="hx:w-3 hx:h-3 hx:text-current" fill="currentColor" viewBox="0 0 20 20">
@@ -16,14 +16,13 @@ PNPM Workspace 是高效的 monorepo 解决方案，支持在单仓库中管理�
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>本文由 AI 协助完成，内容已经过人工审核。&lt;/p>&lt;/div>
 &lt;/div>
 &lt;/div>
-&lt;h2>什么是 Workspace&lt;span class="hx:absolute hx:-mt-20" id="什么是-workspace">&lt;/span>
-&lt;a href="#%e4%bb%80%e4%b9%88%e6%98%af-workspace" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>Workspace（工作区）是 pnpm 提供的 monorepo 解决方案，允许你在一个代码仓库中管理多个相关的包。相比 Lerna、Yarn Workspaces 等方案，pnpm workspace 具有以下优势：&lt;/p>
+&lt;h2>介绍&lt;span class="hx:absolute hx:-mt-20" id="介绍">&lt;/span>
+&lt;a href="#%e4%bb%8b%e7%bb%8d" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>Workspace（工作区）是 pnpm 提供的 monorepo 解决方案，允许你在一个代码仓库中管理多个相关的包。相比 Lerna、Yarn Workspaces 等方案，pnpm workspace 具有以下优势：&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>磁盘空间高效&lt;/strong>：通过内容寻址存储，相同的依赖只会在磁盘上存储一次&lt;/li>
 &lt;li>&lt;strong>安装速度快&lt;/strong>：利用硬链接和符号链接机制，大幅提升安装速度&lt;/li>
 &lt;li>&lt;strong>严格的依赖管理&lt;/strong>：避免幽灵依赖（phantom dependencies）问题&lt;/li>
 &lt;li>&lt;strong>原生支持&lt;/strong>：无需额外工具，pnpm 内置支持 workspace&lt;/li>
-&lt;li>&lt;strong>完美搭配 Turborepo&lt;/strong>：与 Turborepo 结合使用，获得智能缓存和任务编排能力&lt;/li>
 &lt;/ul>
 &lt;p>&lt;strong>典型使用场景&lt;/strong>：&lt;/p>
 &lt;p>假设你需要同时维护 Web 应用、浏览器插件、移动端应用，它们需要共享 UI 组件、工具函数、类型定义等。使用 Workspace 可以：&lt;/p>
@@ -177,264 +176,9 @@ title="复制代码"
 &lt;/button>
 &lt;/div>
 &lt;/div>
-&lt;h2>配合 Turborepo 使用&lt;span class="hx:absolute hx:-mt-20" id="配合-turborepo-使用">&lt;/span>
-&lt;a href="#%e9%85%8d%e5%90%88-turborepo-%e4%bd%bf%e7%94%a8" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>Turborepo 是一个高性能的构建系统，与 pnpm workspace 结合使用可以大幅提升 monorepo 的开发体验。&lt;/p>
-&lt;h3>为什么选择 Turborepo？&lt;span class="hx:absolute hx:-mt-20" id="为什么选择-turborepo">&lt;/span>
-&lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%80%89%e6%8b%a9-turborepo" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;ul>
-&lt;li>&lt;strong>智能缓存&lt;/strong>：本地和远程缓存构建结果，避免重复构建&lt;/li>
-&lt;li>&lt;strong>并行执行&lt;/strong>：自动分析依赖关系，最大化并行执行任务&lt;/li>
-&lt;li>&lt;strong>增量构建&lt;/strong>：只构建变更的包及其依赖&lt;/li>
-&lt;li>&lt;strong>任务编排&lt;/strong>：优雅的任务依赖管理和执行顺序控制&lt;/li>
-&lt;/ul>
-&lt;h3>快速集成&lt;span class="hx:absolute hx:-mt-20" id="快速集成">&lt;/span>
-&lt;a href="#%e5%bf%ab%e9%80%9f%e9%9b%86%e6%88%90" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>&lt;strong>1. 安装 Turborepo&lt;/strong>&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">pnpm add turbo -w -D&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;p>&lt;strong>2. 创建 turbo.json 配置&lt;/strong>&lt;/p>
-&lt;p>在项目根目录创建 &lt;code>turbo.json&lt;/code>：&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;$schema&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;https://turbo.build/schema.json&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;pipeline&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;build&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dependsOn&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;^build&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;outputs&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;dist/**&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;.next/**&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;build/**&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dev&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;cache&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;persistent&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;lint&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dependsOn&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;^build&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;test&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dependsOn&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;^build&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;p>&lt;strong>3. 更新 package.json 脚本&lt;/strong>&lt;/p>
-&lt;p>在根目录的 &lt;code>package.json&lt;/code> 中添加：&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;scripts&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dev&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;turbo run dev&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;build&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;turbo run build&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;lint&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;turbo run lint&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;test&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;turbo run test&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;h3>Turborepo 配置详解&lt;span class="hx:absolute hx:-mt-20" id="turborepo-配置详解">&lt;/span>
-&lt;a href="#turborepo-%e9%85%8d%e7%bd%ae%e8%af%a6%e8%a7%a3" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>&lt;strong>pipeline 字段说明&lt;/strong>：&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;pipeline&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;build&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ^build 表示先执行依赖包的 build
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;dependsOn&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;^build&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 指定哪些文件是构建产物（用于缓存）
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;outputs&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;dist/**&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;.next/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 指定哪些环境变量会影响构建（默认为空）
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;env&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;NODE_ENV&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dev&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 开发模式不缓存
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;cache&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 长期运行的任务（如 dev server）
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;persistent&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;lint&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 依赖当前包的 build 完成
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;dependsOn&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;build&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;p>&lt;strong>常用配置选项&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>dependsOn&lt;/code>: 任务依赖关系
-&lt;ul>
-&lt;li>&lt;code>^task&lt;/code>: 依赖包的任务先执行&lt;/li>
-&lt;li>&lt;code>task&lt;/code>: 当前包的任务先执行&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;code>outputs&lt;/code>: 构建产物目录（用于缓存）&lt;/li>
-&lt;li>&lt;code>cache&lt;/code>: 是否缓存任务结果&lt;/li>
-&lt;li>&lt;code>persistent&lt;/code>: 是否为长期运行任务&lt;/li>
-&lt;li>&lt;code>env&lt;/code>: 影响任务的环境变量&lt;/li>
-&lt;/ul>
-&lt;h3>使用 Turborepo 命令&lt;span class="hx:absolute hx:-mt-20" id="使用-turborepo-命令">&lt;/span>
-&lt;a href="#%e4%bd%bf%e7%94%a8-turborepo-%e5%91%bd%e4%bb%a4" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 执行所有包的 build 任务（带缓存）&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 只构建变更的包&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build --filter&lt;span class="o">=&lt;/span>...&lt;span class="o">[&lt;/span>origin/main&lt;span class="o">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 强制重新构建（跳过缓存）&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build --force
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 并行运行开发服务器&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run dev --parallel
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 查看任务依赖关系图&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build --graph
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 清除缓存&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build --force --no-cache&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;h3>配置远程缓存（可选）&lt;span class="hx:absolute hx:-mt-20" id="配置远程缓存可选">&lt;/span>
-&lt;a href="#%e9%85%8d%e7%bd%ae%e8%bf%9c%e7%a8%8b%e7%bc%93%e5%ad%98%e5%8f%af%e9%80%89" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>Turborepo 支持团队共享构建缓存，避免重复构建：&lt;/p>
-&lt;p>&lt;strong>1. 注册 Vercel 账号并链接项目&lt;/strong>&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">npx turbo login
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">npx turbo link&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;p>&lt;strong>2. 或使用自建缓存服务&lt;/strong>&lt;/p>
-&lt;p>在 &lt;code>turbo.json&lt;/code> 中配置：&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;remoteCache&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;signature&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;h3>Turborepo 最佳实践&lt;span class="hx:absolute hx:-mt-20" id="turborepo-最佳实践">&lt;/span>
-&lt;a href="#turborepo-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;ol>
-&lt;li>&lt;strong>合理划分任务&lt;/strong>：将大任务拆分为小任务，提高缓存命中率&lt;/li>
-&lt;li>&lt;strong>明确 outputs&lt;/strong>：准确指定构建产物，避免缓存失效&lt;/li>
-&lt;li>&lt;strong>使用 &amp;ndash;filter&lt;/strong>：只运行需要的包，提升效率&lt;/li>
-&lt;li>&lt;strong>开启远程缓存&lt;/strong>：团队共享缓存，CI/CD 也能复用&lt;/li>
-&lt;li>&lt;strong>配置 .gitignore&lt;/strong>：添加 &lt;code>.turbo&lt;/code> 目录到 &lt;code>.gitignore&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># .gitignore&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">.turbo&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;h3>示例项目结构（带 Turborepo）&lt;span class="hx:absolute hx:-mt-20" id="示例项目结构带-turborepo">&lt;/span>
-&lt;a href="#%e7%a4%ba%e4%be%8b%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%e5%b8%a6-turborepo" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;pre>&lt;code>my-monorepo/
-├── turbo.json # Turborepo 配置
-├── pnpm-workspace.yaml # pnpm workspace 配置
-├── package.json # 根目录配置
-├── .gitignore
-├── packages/
-│ ├── ui/
-│ │ ├── package.json
-│ │ ├── tsconfig.json
-│ │ └── src/
-│ └── utils/
-│ ├── package.json
-│ ├── tsconfig.json
-│ └── src/
-└── apps/
-├── web/
-│ ├── package.json # 依赖 @myproject/ui
-│ └── src/
-└── admin/
-├── package.json # 依赖 @myproject/ui
-└── src/&lt;/code>&lt;/pre>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;h3>实际使用示例&lt;span class="hx:absolute hx:-mt-20" id="实际使用示例">&lt;/span>
-&lt;a href="#%e5%ae%9e%e9%99%85%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>假设你修改了 &lt;code>packages/ui&lt;/code> 的代码：&lt;/p>
-&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Turborepo 会自动：&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 1. 检测到 ui 包的变更&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 2. 重新构建 ui 包&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 3. 重新构建依赖 ui 的 web 和 admin&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 4. 缓存构建结果&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 下次如果 ui 没有变更：&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 1. 直接使用缓存结果&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 2. 秒级完成构建&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">turbo run build &lt;span class="c1"># ⚡️ 从缓存恢复&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
-&lt;button
-class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
-title="复制代码"
->
-&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
-&lt;/button>
-&lt;/div>
-&lt;/div>
-&lt;h2>常见问题与解决方案&lt;span class="hx:absolute hx:-mt-20" id="常见问题与解决方案">&lt;/span>
-&lt;a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e4%b8%8e%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;h3>1. 为什么没有一键初始化命令？&lt;span class="hx:absolute hx:-mt-20" id="1-为什么没有一键初始化命令">&lt;/span>
-&lt;a href="#1-%e4%b8%ba%e4%bb%80%e4%b9%88%e6%b2%a1%e6%9c%89%e4%b8%80%e9%94%ae%e5%88%9d%e5%a7%8b%e5%8c%96%e5%91%bd%e4%bb%a4" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
+&lt;h2>常见问题&lt;span class="hx:absolute hx:-mt-20" id="常见问题">&lt;/span>
+&lt;a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;h3>为什么没有一键初始化&lt;span class="hx:absolute hx:-mt-20" id="为什么没有一键初始化">&lt;/span>
+&lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e6%b2%a1%e6%9c%89%e4%b8%80%e9%94%ae%e5%88%9d%e5%a7%8b%e5%8c%96" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
 &lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Note&lt;/p>
 &lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>许多开发者在接触 pnpm workspace 时会疑惑：为什么不像 &lt;code>create-react-app&lt;/code> 或 &lt;code>npm init&lt;/code> 那样提供一个一键初始化命令？&lt;/p>&lt;/div>
@@ -473,14 +217,13 @@ title="复制代码"
 &lt;/div>
 &lt;p>或者使用社区提供的脚手架工具：&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://turbo.build/"target="_blank" rel="noopener">Turborepo&lt;/a> - 提供完整的 monorepo 模板&lt;/li>
 &lt;li>&lt;a href="https://nx.dev/"target="_blank" rel="noopener">Nx&lt;/a> - 支持多种技术栈的 monorepo 工具&lt;/li>
 &lt;li>&lt;a href="https://github.com/pnpm/create-pnpm-workspace"target="_blank" rel="noopener">create-pnpm-workspace&lt;/a> - 社区维护的初始化工具&lt;/li>
 &lt;/ul>
 &lt;p>&lt;strong>建议&lt;/strong>：&lt;/p>
 &lt;p>对于首次使用 pnpm workspace 的开发者，手动初始化反而是一个很好的学习过程，能帮助你更好地理解 workspace 的工作原理。&lt;/p>
-&lt;h3>2. 依赖提升问题&lt;span class="hx:absolute hx:-mt-20" id="2-依赖提升问题">&lt;/span>
-&lt;a href="#2-%e4%be%9d%e8%b5%96%e6%8f%90%e5%8d%87%e9%97%ae%e9%a2%98" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
+&lt;h3>依赖提升&lt;span class="hx:absolute hx:-mt-20" id="依赖提升">&lt;/span>
+&lt;a href="#%e4%be%9d%e8%b5%96%e6%8f%90%e5%8d%87" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
 &lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Note&lt;/p>
 &lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>PNPM 默认不会提升依赖，这可能导致某些工具（如 ESLint、Prettier）找不到配置文件或插件。&lt;/p>&lt;/div>
@@ -503,8 +246,8 @@ title="复制代码"
 &lt;/button>
 &lt;/div>
 &lt;/div>
-&lt;h3>3. 协议版本问题&lt;span class="hx:absolute hx:-mt-20" id="3-协议版本问题">&lt;/span>
-&lt;a href="#3-%e5%8d%8f%e8%ae%ae%e7%89%88%e6%9c%ac%e9%97%ae%e9%a2%98" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
+&lt;h3>协议版本&lt;span class="hx:absolute hx:-mt-20" id="协议版本">&lt;/span>
+&lt;a href="#%e5%8d%8f%e8%ae%ae%e7%89%88%e6%9c%ac" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
 &lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Note&lt;/p>
 &lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>使用 &lt;code>workspace:*&lt;/code> 协议引用内部包时，发布到 npm 需要特别注意。&lt;/p>&lt;/div>
@@ -531,8 +274,8 @@ title="复制代码"
 &lt;li>发布前 pnpm 会自动将其替换为实际版本号&lt;/li>
 &lt;li>使用 &lt;code>pnpm publish -r&lt;/code> 进行批量发布&lt;/li>
 &lt;/ul>
-&lt;h3>4. 循环依赖问题&lt;span class="hx:absolute hx:-mt-20" id="4-循环依赖问题">&lt;/span>
-&lt;a href="#4-%e5%be%aa%e7%8e%af%e4%be%9d%e8%b5%96%e9%97%ae%e9%a2%98" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
+&lt;h3>循环依赖&lt;span class="hx:absolute hx:-mt-20" id="循环依赖">&lt;/span>
+&lt;a href="#%e5%be%aa%e7%8e%af%e4%be%9d%e8%b5%96" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
 &lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Note&lt;/p>
 &lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>Workspace 中容易出现包之间的循环依赖，导致构建失败。&lt;/p>&lt;/div>
@@ -557,8 +300,8 @@ title="复制代码"
 &lt;li>使用依赖注入或事件机制解耦&lt;/li>
 &lt;li>将循环依赖的功能合并到同一个包&lt;/li>
 &lt;/ul>
-&lt;h3>5. TypeScript 路径映射&lt;span class="hx:absolute hx:-mt-20" id="5-typescript-路径映射">&lt;/span>
-&lt;a href="#5-typescript-%e8%b7%af%e5%be%84%e6%98%a0%e5%b0%84" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
+&lt;h3>TypeScript 路径&lt;span class="hx:absolute hx:-mt-20" id="typescript-路径">&lt;/span>
+&lt;a href="#typescript-%e8%b7%af%e5%be%84" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
 &lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Note&lt;/p>
 &lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>在 monorepo 中使用 TypeScript 时，需要正确配置路径映射。&lt;/p>&lt;/div>
@@ -601,8 +344,8 @@ title="复制代码"
 &lt;/button>
 &lt;/div>
 &lt;/div>
-&lt;h3>6. 开发时的热更新问题&lt;span class="hx:absolute hx:-mt-20" id="6-开发时的热更新问题">&lt;/span>
-&lt;a href="#6-%e5%bc%80%e5%8f%91%e6%97%b6%e7%9a%84%e7%83%ad%e6%9b%b4%e6%96%b0%e9%97%ae%e9%a2%98" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
+&lt;h3>热更新&lt;span class="hx:absolute hx:-mt-20" id="热更新">&lt;/span>
+&lt;a href="#%e7%83%ad%e6%9b%b4%e6%96%b0" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-blue-200 hx:bg-blue-100 hx:text-blue-900 hx:dark:border-blue-200/30 hx:dark:bg-blue-900/30 hx:dark:text-blue-200">
 &lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Note&lt;/p>
 &lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
 &lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>当修改 workspace 中的依赖包时，可能需要手动重启开发服务器。&lt;/p>&lt;/div>
@@ -612,10 +355,9 @@ title="复制代码"
 &lt;ul>
 &lt;li>使用构建工具的 watch 模式：&lt;code>pnpm -r --parallel run dev&lt;/code>&lt;/li>
 &lt;li>配置 Vite/Webpack 的 &lt;code>optimizeDeps.exclude&lt;/code> 排除 workspace 包&lt;/li>
-&lt;li>使用 Turborepo 等工具管理构建缓存和依赖关系&lt;/li>
 &lt;/ul>
-&lt;h3>7. Git 提交钩子配置&lt;span class="hx:absolute hx:-mt-20" id="7-git-提交钩子配置">&lt;/span>
-&lt;a href="#7-git-%e6%8f%90%e4%ba%a4%e9%92%a9%e5%ad%90%e9%85%8d%e7%bd%ae" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>使用 husky 时需要在根目录安装：&lt;/p>
+&lt;h3>Git 钩子&lt;span class="hx:absolute hx:-mt-20" id="git-钩子">&lt;/span>
+&lt;a href="#git-%e9%92%a9%e5%ad%90" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>使用 husky 时需要在根目录安装：&lt;/p>
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
 &lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">pnpm add -w husky lint-staged -D
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">npx husky install&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
@@ -648,25 +390,7 @@ title="复制代码"
 &lt;/div>
 &lt;/div>
 &lt;h2>最佳实践&lt;span class="hx:absolute hx:-mt-20" id="最佳实践">&lt;/span>
-&lt;a href="#%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;h3>推荐技术栈：PNPM Workspace + Turborepo&lt;span class="hx:absolute hx:-mt-20" id="推荐技术栈pnpm-workspace--turborepo">&lt;/span>
-&lt;a href="#%e6%8e%a8%e8%8d%90%e6%8a%80%e6%9c%af%e6%a0%88pnpm-workspace--turborepo" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>这是目前最流行和高效的 monorepo 解决方案组合：&lt;/p>
-&lt;p>&lt;strong>PNPM Workspace 负责&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>依赖管理和安装&lt;/li>
-&lt;li>包之间的引用关系&lt;/li>
-&lt;li>磁盘空间优化&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>Turborepo 负责&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>构建任务编排&lt;/li>
-&lt;li>智能缓存&lt;/li>
-&lt;li>并行执行优化&lt;/li>
-&lt;/ul>
-&lt;h3>核心实践建议&lt;span class="hx:absolute hx:-mt-20" id="核心实践建议">&lt;/span>
-&lt;a href="#%e6%a0%b8%e5%bf%83%e5%ae%9e%e8%b7%b5%e5%bb%ba%e8%ae%ae" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>使用 Turborepo 管理构建&lt;/strong>：用 &lt;code>turbo run build&lt;/code> 代替 &lt;code>pnpm -r run build&lt;/code>，获得缓存和并行执行能力&lt;/p>
-&lt;/li>
+&lt;a href="#%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>包命名规范&lt;/strong>：使用 scope（如 &lt;code>@myproject/&lt;/code>）统一管理内部包&lt;/p>
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
@@ -726,17 +450,16 @@ title="复制代码"
 &lt;/div>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>CI/CD 优化&lt;/strong>：&lt;/p>
+&lt;p>&lt;strong>构建顺序&lt;/strong>：使用 &lt;code>pnpm -r run build&lt;/code> 时，pnpm 会自动按依赖关系排序&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>选择性执行&lt;/strong>：使用 &lt;code>--filter&lt;/code> 参数只对需要的包执行操作&lt;/p>
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># .github/workflows/ci.yml&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Install dependencies&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pnpm install --frozen-lockfile&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Build with cache&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">turbo run build&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">TURBO_TOKEN&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ secrets.TURBO_TOKEN }}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">TURBO_TEAM&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ secrets.TURBO_TEAM }}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
+&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 只构建 web 应用及其依赖&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm --filter @myproject/web build
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 只在 packages 目录下的包运行测试&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm --filter &lt;span class="s2">&amp;#34;./packages/**&amp;#34;&lt;/span> test&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
 &lt;button
 class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
 title="复制代码"
@@ -748,16 +471,30 @@ title="复制代码"
 &lt;/div>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>开发体验优化&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>使用 &lt;code>turbo run dev --parallel&lt;/code> 并行启动所有开发服务器&lt;/li>
-&lt;li>使用 &lt;code>--filter&lt;/code> 只运行需要的包&lt;/li>
-&lt;li>配置 &lt;code>.turbo&lt;/code> 缓存目录到 &lt;code>.gitignore&lt;/code>&lt;/li>
-&lt;/ul>
+&lt;p>&lt;strong>CI/CD 优化&lt;/strong>：&lt;/p>
+&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
+&lt;div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># .github/workflows/ci.yml&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Install dependencies&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pnpm install --frozen-lockfile&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Build all packages&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pnpm -r run build&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Run tests&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pnpm -r run test&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/div>&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
+&lt;button
+class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
+title="复制代码"
+>
+&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
+&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">&lt;/div>
+&lt;/button>
+&lt;/div>
+&lt;/div>
 &lt;/li>
 &lt;/ol>
-&lt;h2>项目结构示例&lt;span class="hx:absolute hx:-mt-20" id="项目结构示例">&lt;/span>
-&lt;a href="#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%e7%a4%ba%e4%be%8b" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
+&lt;h2>项目结构&lt;span class="hx:absolute hx:-mt-20" id="项目结构">&lt;/span>
+&lt;a href="#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
 &lt;div>&lt;pre>&lt;code>my-monorepo/
 ├── pnpm-workspace.yaml
 ├── package.json
@@ -788,36 +525,23 @@ title="复制代码"
 &lt;/div>
 &lt;/div>
 &lt;h2>总结&lt;span class="hx:absolute hx:-mt-20" id="总结">&lt;/span>
-&lt;a href="#%e6%80%bb%e7%bb%93" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>PNPM Workspace + Turborepo 是目前最优的 monorepo 解决方案组合：&lt;/p>
+&lt;a href="#%e6%80%bb%e7%bb%93" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>PNPM Workspace 是高效的 monorepo 解决方案，通过以下特性显著提升开发效率：&lt;/p>
 &lt;ul>
-&lt;li>&lt;strong>PNPM Workspace&lt;/strong> 提供高效的依赖管理和磁盘空间优化&lt;/li>
-&lt;li>&lt;strong>Turborepo&lt;/strong> 提供智能缓存和任务编排能力&lt;/li>
-&lt;li>两者结合可以大幅提升开发效率和构建速度&lt;/li>
+&lt;li>&lt;strong>依赖管理优化&lt;/strong>：磁盘空间高效、安装速度快、避免幽灵依赖&lt;/li>
+&lt;li>&lt;strong>代码共享便捷&lt;/strong>：多端应用可轻松共享 UI 组件、工具函数、类型定义&lt;/li>
+&lt;li>&lt;strong>开发体验友好&lt;/strong>：原生支持、自动依赖排序、灵活的过滤机制&lt;/li>
 &lt;/ul>
-&lt;h3>快速开始检查清单&lt;span class="hx:absolute hx:-mt-20" id="快速开始检查清单">&lt;/span>
-&lt;a href="#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>✅ 安装 pnpm 并创建 &lt;code>pnpm-workspace.yaml&lt;/code>&lt;br>
-✅ 安装 Turborepo 并配置 &lt;code>turbo.json&lt;/code>&lt;br>
+&lt;h3>快速检查清单&lt;span class="hx:absolute hx:-mt-20" id="快速检查清单">&lt;/span>
+&lt;a href="#%e5%bf%ab%e9%80%9f%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h3>&lt;p>✅ 安装 pnpm 并创建 &lt;code>pnpm-workspace.yaml&lt;/code>&lt;br>
 ✅ 使用 &lt;code>workspace:*&lt;/code> 协议管理内部依赖&lt;br>
-✅ 配置远程缓存（团队协作推荐）&lt;br>
-✅ 添加 &lt;code>.turbo&lt;/code> 到 &lt;code>.gitignore&lt;/code>&lt;/p>
-&lt;p>虽然初期配置需要一些时间，但它带来的开发体验提升和构建效率优化是非常值得的。从小型项目开始，逐步熟悉这套工具链，你会发现 monorepo 开发可以如此高效！&lt;/p>
+✅ 合理划分 packages 和 apps 目录&lt;br>
+✅ 配置共享的 TypeScript、ESLint 等工具&lt;br>
+✅ 使用 changesets 管理版本&lt;/p>
+&lt;p>虽然初期配置需要一些时间，但它带来的开发体验提升是非常值得的。从小型项目开始，逐步熟悉 workspace，你会发现 monorepo 开发可以如此高效！&lt;/p>
 &lt;p>希望这篇指南能帮助你顺利上手！&lt;/p>
-&lt;h2>参考资源&lt;span class="hx:absolute hx:-mt-20" id="参考资源">&lt;/span>
-&lt;a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%ba%90" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>&lt;strong>PNPM 相关&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://pnpm.io/zh/workspaces"target="_blank" rel="noopener">官方文档&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://pnpm.io/zh/workspaces#workspace-%e5%8d%8f%e8%ae%ae-workspace"target="_blank" rel="noopener">协议说明&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://pnpm.io/zh/cli/add"target="_blank" rel="noopener">CLI 命令参考&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>Turborepo 相关&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://turbo.build/"target="_blank" rel="noopener">Turborepo 官网&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://turbo.build/repo/docs"target="_blank" rel="noopener">Turborepo 文档&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://turbo.build/repo/docs/reference/configuration"target="_blank" rel="noopener">配置参考&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/vercel/turbo/tree/main/examples"target="_blank" rel="noopener">示例项目&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>其他工具&lt;/strong>：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/changesets/changesets"target="_blank" rel="noopener">Changesets - 版本管理&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://nx.dev/"target="_blank" rel="noopener">Nx - 另一个 monorepo 工具&lt;/a>&lt;/li>
+&lt;h2>参考&lt;span class="hx:absolute hx:-mt-20" id="参考">&lt;/span>
+&lt;a href="#%e5%8f%82%e8%80%83" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>&lt;a href="https://pnpm.io/zh/workspaces"target="_blank" rel="noopener">PNPM 官方文档&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://pnpm.io/zh/workspaces#workspace-%e5%8d%8f%e8%ae%ae-workspace"target="_blank" rel="noopener">Workspace 协议说明&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://pnpm.io/zh/cli/add"target="_blank" rel="noopener">PNPM CLI 参考&lt;/a>&lt;/li>
 &lt;/ul></description></item></channel></rss>
