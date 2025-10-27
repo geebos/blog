@@ -1,21 +1,4 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GeebosBlog – Pnpm</title><link>https://geebosblog.com/tags/pnpm/</link><description>Recent content in Pnpm on GeebosBlog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 26 Oct 2025 20:21:49 +0800</lastBuildDate><atom:link href="https://geebosblog.com/tags/pnpm/index.xml" rel="self" type="application/rss+xml"/><item><title>PNPM Workspace 实践指南</title><link>https://geebosblog.com/blog/frontend/pnpm-workspace/</link><pubDate>Sun, 26 Oct 2025 20:21:49 +0800</pubDate><guid>https://geebosblog.com/blog/frontend/pnpm-workspace/</guid><description>
-&lt;div class="hextra-card hx:group hx:overflow-hidden hx:rounded-lg hx:border hx:border-purple-200 hx:dark:border-purple-200/30 hx:bg-purple-50 hx:dark:bg-purple-900/30 hx:my-4 hx:p-5 hx:relative">
-&lt;div class="hx:text-gray-700 hx:dark:text-purple-200 hx:leading-relaxed hx:text-base">
-PNPM Workspace 是高效的 monorepo 解决方案，支持在单仓库中管理多个包，实现 Web、插件、移动端等多端代码共享。文章讲解从安装配置到日常使用的完整流程，解答依赖提升、协议版本、循环依赖、热更新等常见问题。
-&lt;/div>
-&lt;div class="hx:absolute hx:bottom-3 hx:right-3 hx:flex hx:items-center hx:gap-1 hx:text-xs hx:text-gray-500 hx:dark:text-gray-300 hx:opacity-75">
-&lt;svg class="hx:w-3 hx:h-3 hx:text-current" fill="currentColor" viewBox="0 0 20 20">
-&lt;path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd">&lt;/path>
-&lt;/svg>
-&lt;span>AI summary&lt;/span>
-&lt;/div>
-&lt;/div>
-&lt;div class="hx:overflow-x-auto hx:mt-6 hx:flex hx:flex-col hx:rounded-lg hx:border hx:py-4 hx:px-4 hx:border-gray-200 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-purple-200 hx:bg-purple-100 hx:text-purple-900 hx:dark:border-purple-200/30 hx:dark:bg-purple-900/30 hx:dark:text-purple-200">
-&lt;p class="hx:flex hx:items-center hx:font-medium">&lt;svg height=16px class="hx:inline-block hx:align-middle hx:mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">&lt;path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>&lt;/svg>Important&lt;/p>
-&lt;div class="hx:w-full hx:min-w-0 hx:leading-7">
-&lt;div class="hx:mt-6 hx:leading-7 hx:first:mt-0">&lt;p>本文由 AI 协助完成，内容已经过人工审核。&lt;/p>&lt;/div>
-&lt;/div>
-&lt;/div>
 &lt;h2>介绍&lt;span class="hx:absolute hx:-mt-20" id="介绍">&lt;/span>
 &lt;a href="#%e4%bb%8b%e7%bb%8d" class="subheading-anchor" aria-label="Permalink for this section">&lt;/a>&lt;/h2>&lt;p>Workspace（工作区）是 pnpm 提供的 monorepo 解决方案，允许你在一个代码仓库中管理多个相关的包。相比 Lerna、Yarn Workspaces 等方案，pnpm workspace 具有以下优势：&lt;/p>
 &lt;ul>
