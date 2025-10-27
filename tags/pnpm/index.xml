@@ -215,11 +215,6 @@ title="复制代码"
 &lt;/button>
 &lt;/div>
 &lt;/div>
-&lt;p>或者使用社区提供的脚手架工具：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://nx.dev/"target="_blank" rel="noopener">Nx&lt;/a> - 支持多种技术栈的 monorepo 工具&lt;/li>
-&lt;li>&lt;a href="https://github.com/pnpm/create-pnpm-workspace"target="_blank" rel="noopener">create-pnpm-workspace&lt;/a> - 社区维护的初始化工具&lt;/li>
-&lt;/ul>
 &lt;p>&lt;strong>建议&lt;/strong>：&lt;/p>
 &lt;p>对于首次使用 pnpm workspace 的开发者，手动初始化反而是一个很好的学习过程，能帮助你更好地理解 workspace 的工作原理。&lt;/p>
 &lt;h3>依赖提升&lt;span class="hx:absolute hx:-mt-20" id="依赖提升">&lt;/span>
